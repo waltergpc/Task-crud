@@ -24,6 +24,15 @@ h3 {
   text-align: center;
 }
 
+a {
+  text-decoration: none;
+  color: white;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
 .header-container {
   display: flex;
   flex-direction: row;
@@ -229,6 +238,17 @@ select {
   justify-self: end;
 }
 
+.date-div {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 1em;
+}
+
+.date-input {
+  width: 100%;
+}
 .submit-button {
   margin-top: 1.5em;
   padding: 0.5em;

@@ -1,12 +1,12 @@
 import React, { useReducer, createContext, useContext } from 'react'
 import { v4 as uuid } from 'uuid'
 
-const initialState = [{title: 'pasear al tony', id: '1', description: 'veloz'}]
+const initialState = [{title: 'pasear al tony', id: '123454232434', description: 'veloz'}]
 
 const reducer = (state, action) => {
     switch(action.type) {
         case 'ADD_TASK':
-            return [...state, {...action.payload, id: uuid()}] 
+            return [...state, {...action.payload}] 
         case 'DELETE':
             return [...state.filter((task) => task.id !== action.payload.id)]
         case 'UPDATE_TASK':
