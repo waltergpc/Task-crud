@@ -1,7 +1,7 @@
 import React, { useReducer, createContext, useContext } from 'react'
 import { v4 as uuid } from 'uuid'
 
-const initialState = [{title: 'pasear al tony', id: '123454232434', description: 'veloz'}]
+const initialState = [{title: 'pasear al tony', id: '123454232434', description: 'veloz', urgency:{id:1, name:'Urgent'}}]
 
 const reducer = (state, action) => {
     switch(action.type) {

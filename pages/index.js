@@ -4,11 +4,19 @@ import { useTasks } from '../Components/taskContext'
 import FormContainer from '../Components/FormContainer'
 import Link from 'next/link'
 import { VscTrash } from "@react-icons/all-files/vsc/VscTrash"
+import { useEffect } from 'react'
+import axios from 'axios'
 
 
 export default function Home() {
 
   const { tasks, dispatch } = useTasks()
+
+  useEffect(() => {
+    axios.get('http://127.0.0.1:5000/')
+    .then(res => console.log(res.data))
+    .catch(err => console.log(err))
+  }, [])
 
   const itemBackground = (item) => {
     if(item === 'Can wait') {
@@ -20,7 +28,15 @@ export default function Home() {
     }
   }
 
- console.log(tasks)
+
+  const handleDelete = (task) => {
+    axios({url: `http://127.0.0.1:5000/delete/${task.id}`
+    , method: 'delete', data: task})
+    .then(res => dispatch({type: 'DELETE', payload: res.data},
+      console.log(res)))
+    .catch(err => console.log(err))
+  }
+
 
   return (
     <div className={styles.container}>
@@ -31,18 +47,14 @@ export default function Home() {
       <FormContainer>
         <div className='task-flex'>
         {tasks.map(task => 
-        <div key={task.title} className={itemBackground(task.urgency)}>
+        <div key={task.title} className={itemBackground(task.urgency.name)}>
           <div className='task-text'><Link href={`/edit/${task.id}`}><a>{task.title}</a></Link></div>
           <button className='delete-button' 
-          onClick={() => dispatch({type: 'DELETE', payload: task})}><VscTrash/>
+          onClick={() => handleDelete(task)}><VscTrash/>
           </button>
         </div>)}
         </div>
       </FormContainer>
-        
-      
-      
-    
     </div>
   )
 }

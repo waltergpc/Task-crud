@@ -6,7 +6,6 @@ import axios from 'axios'
 const TaskForm = () => {
 
     const { tasks, dispatch } = useTasks()
-    const today = Date.now()
 
     const [task, setTask] = useState({title:'', description:'', urgency:'regular', date: 'Not set'})
 
@@ -15,13 +14,12 @@ const TaskForm = () => {
     useEffect(() => {
         if(router.query.id) {
             const taskFound = tasks.find(el => el.id == router.query.id)
-            setTask({title: taskFound.title, description: taskFound.description, urgency: taskFound.urgency})
+            setTask({title: taskFound.title, description: taskFound.description, urgency: taskFound.urgency, date: taskFound.date})
         }
     }, [])
 
     const handleChange = (e) => {
         setTask({...task, [e.target.name]: e.target.value})
-        console.log(task)
     }
 
     const handleSubmit = (e) => {
@@ -33,9 +31,11 @@ const TaskForm = () => {
             .catch(err => console.log(err))
         }
         else {
-            dispatch({type: 'UPDATE_TASK', payload: {...task, id: router.query.id}})
+            axios({url: `http://127.0.0.1:5000/edit/${router.query.id}`, method: 'put', data: task})
+            .then(res => dispatch({type: 'UPDATE_TASK', payload: res.data}))
+            .catch(err => console.log(err))
         }
-        setTask({title:'', description:'', urgency:'regular'})
+        setTask({title:'', description:'', urgency:'regular', date: 'Not set'})
         router.push('/')
     }
 
